@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_restful import Api,Resource
 import json
 import os
+import uuid
 
 from bin.utils.configuration_controller import config_controller
 from bin.utils.logging_controller import log_controller
@@ -36,9 +37,9 @@ health_check(logger, script_dir, db_path)
 def create_server():
     data = request.data
     data = json.loads(data)
-
-    logger.info("I got work!")
-    response = create_servers(logger, db_path, data["server_type"])
+    pid = uuid.uuid1()
+    logger.info("work_thread {} - Starting work.".format(pid))
+    response = create_servers(logger, db_path, data, pid)
     return response, 200
 
 
@@ -46,8 +47,8 @@ def create_server():
 def get_server_info():
     data = request.data
     data = json.loads(data)
-
-    logger.info("Getting Server Info for {}".format(data["container_id"]))
+    pid = uuid.uuid1()
+    logger.info("work_thread {1} - Getting Server Info for {0}".format(data["container_id"], pid))
     response = server_info(logger, db_path, data["container_id"])
     return response, 200
 
