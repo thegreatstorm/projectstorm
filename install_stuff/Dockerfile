@@ -40,6 +40,7 @@ RUN dpkg --add-architecture i386 && \
 		binutils \
 		bc \
         netcat \
+        lib32stdc++6 \
         jq \
 		tmux \
 		lib32gcc1 \
