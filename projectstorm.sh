@@ -10,7 +10,7 @@ if [[ "$1" == "start" ]]; then
 
 elif [[ "$1" == "stop" ]]; then
    echo "Stopping ProjectStorm..."
-   pid_file="var/run/ProjectStorm.pid"
+   pid_file="var/run/projectstorm.pid"
    if [ -f "${pid_file}" ];then
       pid=$(cat $pid_file)
       echo $pid
