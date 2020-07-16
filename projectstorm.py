@@ -6,12 +6,12 @@ import uuid
 
 from bin.utils.configuration_controller import config_controller
 from bin.utils.logging_controller import log_controller
+from bin.utils.pid_controller import create_pid
 from bin.servers import create_servers
 from bin.utils.database_controller import health_check, server_info, delete_container_info
 from bin.utils.auth import check_rest_key
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-
 
 # ================ Configuration Piece ===================
 config_settings = config_controller(script_dir, "confs/default.conf", "confs/local.conf")
@@ -22,6 +22,7 @@ api = Api(app)
 host = config_settings.get('system', 'host')
 port = int(config_settings.get('system', 'port'))
 api_key = config_settings.get('system', 'api_key')
+pid_location = config_settings.get('system', 'api_key')
 # ================ Configuration Piece ===================
 
 # ================ Retrieve Logging info =================
@@ -34,9 +35,11 @@ db_path = config_settings.get('database', 'db_path')
 health_check(logger, script_dir, db_path)
 # ================ Database info =================
 
-
+# ================ System Setup ==================
 logger.info("Starting App: {} - Version: {}".format(app_name, version))
 logger.debug("Configurations Address: {} - Port: {} - Api Key: {}".format(host, port, api_key))
+create_pid(logger, script_dir, pid_location)
+# ================ System Setup ==================
 
 
 @app.route('/projectstorm/create_servers', methods=['POST'])
@@ -87,4 +90,4 @@ def delete_server_info():
     return response, 200
 
 
-app.run(host=host, port=port, debug=True)
+app.run(host=host, port=port, debug=True, threaded=True)

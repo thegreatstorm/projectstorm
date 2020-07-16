@@ -30,3 +30,8 @@ Since this works with containers you can put it in a cloud and create a storm! :
   * Required Data:
   *     outgoingJson["api_key"] = api_key
         outgoingJson["container_id"] = container_id
+        
+## IF YOU CHANGE projectstorm.sh
+I'm not very good in bash scripting.
+
+If you update the pid_location in confs/ you will need to manually update the projectstorm.sh.
