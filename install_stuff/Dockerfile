@@ -42,6 +42,7 @@ RUN dpkg --add-architecture i386 && \
         netcat \
         lib32stdc++6 \
         jq \
+        git \
 		tmux \
 		lib32gcc1 \
 		libstdc++6 \
@@ -77,7 +78,7 @@ RUN dpkg --add-architecture i386 && \
 		libnm-glib-dev:i386 \
 		&& apt-get clean \
 	  && rm -rf /var/lib/apt/lists/*
-	  
+
 # Add the linuxgsm user
 RUN adduser linuxgsm --no-create-home --disabled-password --gecos ""
 RUN echo 'linuxgsm:admin123' | chpasswd

@@ -5,22 +5,19 @@ import json
 def postRequest():
     print("You are attempting to post information for servers")
 
-    host = input("Enter Host: ")
-    port = input("Enter Port: ")
-    api_key = input("Enter ApiKey: ")
+    host = ""
+    port = ""
+    api_key = ""
+    container_id = ""
+
     baseurl = "http://{}:{}/projectstorm/get_server_info".format(host, port)
     header = {"Content-Type": "application/json"}
 
-    container_id = input("Enter container id here: ")
     outgoingJson = {}
-    outgoingJson["restapi"] = api_key
+    outgoingJson["api_key"] = api_key
     outgoingJson["container_id"] = container_id
     json_outgoing = json.dumps(outgoingJson)
 
-
-    #print(json_outgoing)
-
-    #print("Baseurl: " + baseurl)
     try:
         response = requests.post(baseurl, headers=header, data=json_outgoing, verify=False)
         print(response)

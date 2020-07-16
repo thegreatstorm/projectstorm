@@ -9,13 +9,13 @@ def health_check(logger, script_dir, db_path):
 
     logger.debug("Database location {}".format(db_path))
     if not os.path.isfile(db_path):
-        logger.info("Database not found under path {}".format(db_path))
+        logger.warning("Database not found under path {}".format(db_path))
         f = open(db_path, "w+")
         f.close()
-        logger.info("Created new Database")
+        logger.debug("Created new Database")
         create_table(logger, db_path)
     else:
-        logger.info("Database exists!~")
+        logger.debug("Database exists!~")
 
 
 def create_table(logger, db_path):
@@ -48,6 +48,36 @@ def insert_container_info(logger, db_path, response):
         conn.close()
     except Exception as e:
         logger.error("Inserting container to database failed! {}".format(str(e)))
+
+
+def delete_container_info(logger, db_path, container_id):
+    logger.debug("Deleting container")
+
+    response = {}
+    response["container_id"] = container_id
+    try:
+        conn = sqlite3.connect(db_path)
+        command = "DELETE FROM SERVERS WHERE CONTAINER_ID = '{}'".format(container_id)
+        logger.debug("SQL COMMAND: {}".format(command))
+        conn.execute(command)
+        conn.commit()
+        conn.close()
+        response["status"] = "Deleted"
+    except Exception as e:
+        response["status"] = "Failed To Delete"
+        logger.error("Delete container to database failed! {}".format(str(e)))
+
+    return response
+
+
+def update_server_info(logger, db_path, sql):
+    try:
+        conn = sqlite3.connect(db_path)
+        conn.execute(sql)
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        logger.error("Update container to database failed! {}".format(str(e)))
 
 
 def server_info(logger, db_path, container_id):

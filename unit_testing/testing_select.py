@@ -1,6 +1,7 @@
 import sqlite3
 
-def select(db_path, container_id):
+
+def select(db_path):
     conn = sqlite3.connect(db_path)
     command = "SELECT * FROM SERVERS"
     cursor = conn.execute(command)
@@ -15,5 +16,6 @@ def select(db_path, container_id):
 
     return response
 
-response = select("storm.db", "f3953e1c69aeb935011c4062928d637537f41dc773356c359aa8ea9511a1d20a")
+
+response = select("../db/storm.db")
 print(response)
