@@ -75,7 +75,7 @@ def install_rust_server(logger, db_path, data, pid):
         data["status"] = "Failed to Install Rust Server. {0}. Exception: {1}".format(data["container_id"], str(e))
 
     # Creates the rustserver.cfg required for the container
-    rust_configuration(logger,db_path, data, pid)
+    rust_configuration(logger, data, pid)
 
     # Update Status in db
     update_server_info(logger, db_path, "UPDATE SERVERS set status='{0}' WHERE CONTAINER_ID='{1}'".format('Completed', data['container_id']))
