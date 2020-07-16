@@ -22,7 +22,7 @@ api = Api(app)
 host = config_settings.get('system', 'host')
 port = int(config_settings.get('system', 'port'))
 api_key = config_settings.get('system', 'api_key')
-pid_location = config_settings.get('system', 'api_key')
+pid_location = config_settings.get('system', 'pid_location')
 # ================ Configuration Piece ===================
 
 # ================ Retrieve Logging info =================
