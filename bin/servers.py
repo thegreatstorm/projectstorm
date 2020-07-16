@@ -6,7 +6,7 @@ def create_servers(logger, db_path, data, pid):
     response["status"] = "I broke I think"
 
     if 'rust' == data["server_type"]:
-        logger.info("work_thread {} - I'm creating a rust server!".format(pid))
+        logger.info("work_thread {} - Creating Rust Server".format(pid))
         response = create_rust_server(logger, db_path, data, pid)
     else:
         response["status"] = "No server type found."

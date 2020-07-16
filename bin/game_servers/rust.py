@@ -27,7 +27,7 @@ def create_rust_server(logger, db_path, data, pid):
     try:
         container_id = check_output(command, shell=True)
         container_id = container_id.rstrip("\n\r")
-        logger.info("work_thread {0} - I have created a container: {1}".format(pid, container_id))
+        logger.info("work_thread {0} - Container Created: {1}".format(pid, container_id))
 
         data["container_id"] = container_id
         data["game_port"] = game_port
@@ -69,7 +69,7 @@ def install_rust_server(logger, db_path, data, pid):
         check_output(command, shell=True)
         # Update Status in db
         update_server_info(logger, db_path, "UPDATE SERVERS set status='{0}' WHERE CONTAINER_ID='{1}'".format('Installed', data['container_id']))
-
+        logger.info("work_thread {0} - Container: {1} - Rust Installation".format(pid, data["container_id"]))
     except Exception as e:
         logger.error("work_thread {0} - Failed to install rust container. {1}. Exception: {2}".format(pid, data["container_id"], str(e)))
         data["status"] = "Failed to Install Rust Server. {0}. Exception: {1}".format(data["container_id"], str(e))
@@ -79,7 +79,7 @@ def install_rust_server(logger, db_path, data, pid):
 
     # Update Status in db
     update_server_info(logger, db_path, "UPDATE SERVERS set status='{0}' WHERE CONTAINER_ID='{1}'".format('Completed', data['container_id']))
-    logger.info("work_thread {0} - Container: {1} - Completed Rust Installation".format(pid, data["container_id"]))
+    logger.info("work_thread {0} - Container: {1} - Completed Container Setup".format(pid, data["container_id"]))
     # Starting Rust Server
     # start_rust_server(logger,db_path, data, pid)
 
