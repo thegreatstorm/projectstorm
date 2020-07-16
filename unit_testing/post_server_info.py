@@ -2,13 +2,13 @@ import requests
 import json
 
 
-def postRequest():
+def post_server_info():
     print("You are attempting to post information for servers")
 
-    host = ""
-    port = ""
-    api_key = ""
-    container_id = ""
+    host = input("Hostname: ")
+    port = input("Port Number: ")
+    api_key = input("API Key: ")
+    container_id = input("Container ID: ")
 
     baseurl = "http://{}:{}/projectstorm/get_server_info".format(host, port)
     header = {"Content-Type": "application/json"}

@@ -2,12 +2,13 @@ import requests
 import json
 
 
-def postRequest():
+def post_create_server():
     print("You are attempting to post information for servers")
 
-    host = ""
-    port = ""
-    api_key = ""
+    host = input("Hostname: ")
+    port = input("Port Number: ")
+    api_key = input("API Key: ")
+    container_id = input("Container ID: ")
 
     baseurl = "http://{}:{}/projectstorm/create_servers".format(host, port)
     header = {"Content-Type": "application/json"}
@@ -30,4 +31,4 @@ def postRequest():
         print("FAILED: " + str(e))
 
 
-postRequest()
+post_create_server()

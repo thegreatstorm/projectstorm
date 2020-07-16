@@ -79,6 +79,7 @@ def install_rust_server(logger, db_path, data, pid):
 
     # Update Status in db
     update_server_info(logger, db_path, "UPDATE SERVERS set status='{0}' WHERE CONTAINER_ID='{1}'".format('Completed', data['container_id']))
+    logger.info("work_thread {0} - Container: {1} - Completed Rust Installation".format(pid, data["container_id"]))
     # Starting Rust Server
     # start_rust_server(logger,db_path, data, pid)
 

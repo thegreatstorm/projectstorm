@@ -3,7 +3,7 @@ import sqlite3
 
 def select(db_path):
     conn = sqlite3.connect(db_path)
-    command = "SELECT * FROM SERVERS"
+    command = "SELECT * FROM servers"
     cursor = conn.execute(command)
     desc = cursor.description
     response = {}

@@ -20,18 +20,19 @@ def health_check(logger, script_dir, db_path):
 
 def create_table(logger, db_path):
     conn = sqlite3.connect(db_path)
-    logger.info("Creating Tables")
+    logger.debug("Creating Tables")
     try:
-        conn.execute('''CREATE TABLE SERVERS
-                 (CONTAINER_ID TEXT PRIMARY KEY     NOT NULL,
-                 GAME_PORT            INT     NOT NULL,
-                 RCON_PORT            INT     NOT NULL,
-                 SSH_PORT            INT     NOT NULL,
-                 STATUS           TEXT    NOT NULL,
-                 SERVER_TYPE           TEXT    NOT NULL,
-                 ROOT_PASSWORD           TEXT    NOT NULL,
-                 USER_PASSWORD           TEXT    NOT NULL);''')
-        logger.info("Created Tables Successfully")
+        conn.execute('''CREATE TABLE servers
+                 (container_id TEXT PRIMARY KEY     NOT NULL,
+                 game_port            INT     NOT NULL,
+                 mobile_port            INT     NOT NULL,
+                 rcon_port            INT     NOT NULL,
+                 ssh_port            INT     NOT NULL,
+                 status           TEXT    NOT NULL,
+                 server_type           TEXT    NOT NULL,
+                 root_password           TEXT    NOT NULL,
+                 user_password           TEXT    NOT NULL);''')
+        logger.debug("Created Tables Successfully")
     except Exception as e:
         logger.error("Couldn't create table! {}".format(str(e)))
     conn.close()
@@ -40,9 +41,17 @@ def create_table(logger, db_path):
 def insert_container_info(logger, db_path, response):
     try:
         conn = sqlite3.connect(db_path)
-        command = "INSERT INTO SERVERS (CONTAINER_ID, GAME_PORT, RCON_PORT, SSH_PORT, STATUS, ROOT_PASSWORD, USER_PASSWORD, SERVER_TYPE) \
-        VALUES('{}', {}, {}, {}, '{}', '{}', '{}', '{}')".format(response["container_id"], response["game_port"], response["rcon_port"], response["ssh_port"], response["status"], response["root_password"], response["user_password"],response['server_type'])
-        logger.debug("SQL COMMAND: {}".format(command))
+        command = "INSERT INTO servers (container_id, game_port, mobile_port, rcon_port, ssh_port, status, server_type, root_password, user_password) \
+        VALUES('{0}', {1}, {2}, {3}, {4}, '{5}', '{6}', '{7}', '{8}')".format(
+            response["container_id"],
+            response["game_port"],
+            response["mobile_port"],
+            response["rcon_port"],
+            response["ssh_port"],
+            response["status"],
+            response["server_type"],
+            response["root_password"],
+            response['user_password'])
         conn.execute(command)
         conn.commit()
         conn.close()
@@ -57,7 +66,7 @@ def delete_container_info(logger, db_path, container_id):
     response["container_id"] = container_id
     try:
         conn = sqlite3.connect(db_path)
-        command = "DELETE FROM SERVERS WHERE CONTAINER_ID = '{}'".format(container_id)
+        command = "DELETE FROM servers WHERE container_id = '{}'".format(container_id)
         logger.debug("SQL COMMAND: {}".format(command))
         conn.execute(command)
         conn.commit()
@@ -82,7 +91,7 @@ def update_server_info(logger, db_path, sql):
 
 def server_info(logger, db_path, container_id):
     conn = sqlite3.connect(db_path)
-    command = "SELECT * FROM SERVERS WHERE CONTAINER_ID = '{}'".format(container_id)
+    command = "SELECT * FROM servers WHERE container_id = '{}'".format(container_id)
     cursor = conn.execute(command)
     desc = cursor.description
     response = {}

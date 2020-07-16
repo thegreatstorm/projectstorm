@@ -2,14 +2,11 @@ import requests
 import json
 
 
-def postRequest():
-
-
-    host = ""
-    port = ""
-    api_key = ""
-    container_id = ""
-
+def delete_server_info():
+    host = input("Hostname: ")
+    port = input("Port Number: ")
+    api_key = input("API Key: ")
+    container_id = input("Container ID: ")
 
     baseurl = "http://{}:{}/projectstorm/delete_server_info".format(host, port)
     print("You are attempting to post information for servers")
