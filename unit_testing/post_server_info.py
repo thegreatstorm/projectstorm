@@ -27,4 +27,4 @@ def post_server_info():
         print("FAILED: " + str(e))
 
 
-postRequest()
+post_server_info()

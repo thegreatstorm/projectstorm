@@ -8,7 +8,6 @@ def post_create_server():
     host = input("Hostname: ")
     port = input("Port Number: ")
     api_key = input("API Key: ")
-    container_id = input("Container ID: ")
 
     baseurl = "http://{}:{}/projectstorm/create_servers".format(host, port)
     header = {"Content-Type": "application/json"}
@@ -19,7 +18,7 @@ def post_create_server():
     data["seed"] = "22"
     data["worldsize"] = "1000"
     data["maxplayers"] = "250"
-    data["server_name"] = ""
+    data["server_name"] = "Rusty Storm"
     json_outgoing = json.dumps(data)
 
     try:

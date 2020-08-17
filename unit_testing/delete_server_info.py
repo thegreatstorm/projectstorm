@@ -28,4 +28,4 @@ def delete_server_info():
         print("FAILED: " + str(e))
 
 
-postRequest()
+delete_server_info()

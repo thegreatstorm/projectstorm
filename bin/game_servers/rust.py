@@ -17,9 +17,9 @@ def create_rust_server(logger, db_path, data, pid):
     game_port = random_port()
     rcon_port = random_port()
     ssh_port = random_port()
-    mobile_port = random_port()
+    app_port = random_port()
 
-    command = "docker run -td -p {0}:{0}/udp -p {0}:{0}/tcp -p {1}:{1}/tcp -p {2}:{2}/tcp -p {3}:22 gameserver".format(game_port, rcon_port, mobile_port, ssh_port)
+    command = "docker run -td -p {0}:{0}/udp -p {0}:{0}/tcp -p {1}:{1}/tcp -p {2}:{2}/tcp -p {3}:22 gameserver".format(game_port, rcon_port, app_port, ssh_port)
 
     linuxgsm_password = random_password()
     root_password = random_password()
@@ -33,7 +33,7 @@ def create_rust_server(logger, db_path, data, pid):
         data["game_port"] = game_port
         data["rcon_port"] = rcon_port
         data["ssh_port"] = ssh_port
-        data["mobile_port"] = mobile_port
+        data["app_port"] = app_port
         data["status"] = "Created"
         data["user_password"] = linuxgsm_password
         data["root_password"] = root_password
@@ -118,7 +118,7 @@ def install_mods_rust_server(logger, data, pid):
         logger.info("work_thread {0} - Container: {1} - Stopping Rust Server".format(pid, data["container_id"]))
         check_output(command_prefix(data["container_id"], '/home/linuxgsm/./rustserver mods-install', 'linuxgsm'), shell=True)
     except Exception as e:
-        logger.error("work_thread {0} - Failed to Stop Rust Server. {1}. Exception: {2}".format(pid, data["container_id"], str(e)))
+        logger.error("work_thread {0} - Failed to install mods Rust Server. {1}. Exception: {2}".format(pid, data["container_id"], str(e)))
 
 
 def rust_configuration(logger, data, pid):
@@ -126,6 +126,7 @@ def rust_configuration(logger, data, pid):
         logger.info("work_thread {0} - Container: {1} - Prepping rustserver.cfg".format(pid, data["container_id"]))
         check_output(command_prefix(data["container_id"], 'echo port=\\"{}\\" > /home/linuxgsm/lgsm/config-lgsm/rustserver/rustserver.cfg'.format( data["game_port"]), 'linuxgsm'), shell=True)
         check_output(command_prefix(data["container_id"], 'echo rconport=\\"{}\\" >> /home/linuxgsm/lgsm/config-lgsm/rustserver/rustserver.cfg'.format(data["rcon_port"]), 'linuxgsm'), shell=True)
+        check_output(command_prefix(data["container_id"], 'echo appport=\\"{}\\" >> /home/linuxgsm/lgsm/config-lgsm/rustserver/rustserver.cfg'.format(data["app_port"]), 'linuxgsm'), shell=True)
         check_output(command_prefix(data["container_id"], 'echo rconpassword=\\"{}\\" >> /home/linuxgsm/lgsm/config-lgsm/rustserver/rustserver.cfg'.format(data["user_password"]), 'linuxgsm'), shell=True)
         check_output(command_prefix(data["container_id"], 'echo rconweb=\\"1\\" >> /home/linuxgsm/lgsm/config-lgsm/rustserver/rustserver.cfg', 'linuxgsm'), shell=True)
         check_output(command_prefix(data["container_id"], 'echo servername=\\"{}\\" >> /home/linuxgsm/lgsm/config-lgsm/rustserver/rustserver.cfg'.format(data["server_name"]), 'linuxgsm'), shell=True)
