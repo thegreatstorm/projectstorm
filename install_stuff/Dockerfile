@@ -84,7 +84,7 @@ RUN adduser linuxgsm --no-create-home --disabled-password --gecos ""
 RUN echo 'linuxgsm:admin123' | chpasswd
 
 ## linuxgsm.sh
-RUN wget https://linuxgsm.com/dl/linuxgsm.sh -P /home/linuxgsm
+RUN wget https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/linuxgsm.sh -P /home/linuxgsm
 
 ## user config
 RUN chown linuxgsm:linuxgsm -R /home/linuxgsm

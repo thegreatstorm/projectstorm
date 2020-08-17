@@ -69,7 +69,7 @@ def install_rust_server(logger, db_path, data, pid):
         check_output(command, shell=True)
         # Update Status in db
         update_server_info(logger, db_path, "UPDATE SERVERS set status='{0}' WHERE CONTAINER_ID='{1}'".format('Installed', data['container_id']))
-        logger.info("work_thread {0} - Container: {1} - Rust Installation".format(pid, data["container_id"]))
+        logger.info("work_thread {0} - Container: {1} - Rust Installed".format(pid, data["container_id"]))
     except Exception as e:
         logger.error("work_thread {0} - Failed to install rust container. {1}. Exception: {2}".format(pid, data["container_id"], str(e)))
         data["status"] = "Failed to Install Rust Server. {0}. Exception: {1}".format(data["container_id"], str(e))
@@ -109,6 +109,14 @@ def stop_rust_server(logger, data, pid):
     try:
         logger.info("work_thread {0} - Container: {1} - Stopping Rust Server".format(pid, data["container_id"]))
         check_output(command_prefix(data["container_id"], '/home/linuxgsm/./rustserver stop', 'linuxgsm'), shell=True)
+    except Exception as e:
+        logger.error("work_thread {0} - Failed to Stop Rust Server. {1}. Exception: {2}".format(pid, data["container_id"], str(e)))
+
+
+def install_mods_rust_server(logger, data, pid):
+    try:
+        logger.info("work_thread {0} - Container: {1} - Stopping Rust Server".format(pid, data["container_id"]))
+        check_output(command_prefix(data["container_id"], '/home/linuxgsm/./rustserver mods-install', 'linuxgsm'), shell=True)
     except Exception as e:
         logger.error("work_thread {0} - Failed to Stop Rust Server. {1}. Exception: {2}".format(pid, data["container_id"], str(e)))
 

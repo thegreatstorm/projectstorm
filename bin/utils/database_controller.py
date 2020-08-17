@@ -67,7 +67,6 @@ def delete_container_info(logger, db_path, container_id):
     try:
         conn = sqlite3.connect(db_path)
         command = "DELETE FROM servers WHERE container_id = '{}'".format(container_id)
-        logger.debug("SQL COMMAND: {}".format(command))
         conn.execute(command)
         conn.commit()
         conn.close()
