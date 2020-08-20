@@ -136,3 +136,19 @@ def rust_configuration(logger, data, pid):
 
     except Exception as e:
         logger.error("Failed to Configure Rust Server. {0}. Exception: {1}".format(data["container_id"], str(e)))
+
+
+def wipe_rust_server(logger, data, pid):
+    try:
+        logger.info("work_thread {0} - Container: {1} - Wiping Rust Server".format(pid, data["container_id"]))
+        check_output(command_prefix(data["container_id"], '/home/linuxgsm/./rustserver wipe', 'linuxgsm'), shell=True)
+    except Exception as e:
+        logger.error("work_thread {0} - Failed to Wipe Rust Server. {1}. Exception: {2}".format(pid, data["container_id"], str(e)))
+
+
+def fwipe_rust_server(logger, data, pid):
+    try:
+        logger.info("work_thread {0} - Container: {1} - Full Wiping Rust Server".format(pid, data["container_id"]))
+        check_output(command_prefix(data["container_id"], '/home/linuxgsm/./rustserver full-wipe', 'linuxgsm'), shell=True)
+    except Exception as e:
+        logger.error("work_thread {0} - Failed to Full Wipe Rust Server. {1}. Exception: {2}".format(pid, data["container_id"], str(e)))
